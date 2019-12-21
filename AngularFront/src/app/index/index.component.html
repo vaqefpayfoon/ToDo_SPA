@@ -1,0 +1,47 @@
+<div class="container" style="direction: rtl;">
+  <div class="row">
+    <div class="col-lg-9">
+      <br/>
+      <br/>
+      <div *ngIf="saveState != '0'">
+        <ng-container *ngIf="saveState == '1'; else elseTemplate">
+          <div class="alert alert-success" style="text-align: right;">
+            <strong>عملیات موفق</strong>
+          </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <div class="alert alert-danger" style="text-align: right;">
+          <strong>{{ err }}</strong>
+          </div>
+        </ng-template>
+      </div>
+      <form [formGroup]="toDoForm">
+        <div formArrayName="todosItem"
+          *ngFor="let todosItemCtrl of getControls(); let i = index">
+          <div [formGroupName]="i" class="row show-grid">
+              <input type="hidden" formControlName="id" id="id">
+              <div class="col-4 col-sm-3">
+                <input class="form-control" formControlName="taskName" placeholder="عنوان">
+              </div>
+              <div class="col-4 col-sm-3">
+                  <select formControlName="userId" class="form-control">
+                      <option *ngFor="let user of users" [ngValue]="user.id" class="form-control">
+                        {{ user.username }}</option>
+                  </select>
+              </div>
+              <div class="col-1 col-sm-1">
+                  <input type="checkbox" formControlName="finish" checked="false">
+              </div>
+              <div class="col-3 col-sm-2" style="background-color:silver;">
+                <i class="fa fa-plus" style="font-size:30px;padding-left: 10%;cursor: hand;" (click)="onAddTodo(i)"></i>
+                <i class="fa fa-edit" style="font-size:30px;padding-left: 10%;cursor: hand;" (click)="onUpdateTodo(i)"></i>
+                <i class="fa fa-trash" style="font-size:30px;padding-left: 10%;cursor: hand;" (click)="onDeleteTodo(i)"></i>
+              </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
